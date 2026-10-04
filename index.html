@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>MyTask</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- SIDEBAR -->
+
+        <aside class="sidebar">
+
+            <div class="logo">
+                MyTask
+            </div>
+
+            <nav>
+
+                <button class="nav-item active" data-filter="all">
+                    <span>▣</span>
+                    All Tasks
+                </button>
+
+                <button class="nav-item" data-filter="today">
+                    <span>◷</span>
+                    Today
+                </button>
+
+                <button class="nav-item" data-filter="completed">
+                    <span>✓</span>
+                    Completed
+                </button>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <button id="themeBtn" class="nav-item">
+                    <span>◐</span>
+                    Dark Mode
+                </button>
+                  <button id="themeSelectorBtn" class="nav-item">
+        <span>✦</span>
+        Themes
+    </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- MAIN CONTENT -->
+
+        <main class="main">
+
+            <header class="topbar">
+
+                <div>
+                    <p class="date" id="currentDate"></p>
+                    <h1>My Tasks</h1>
+                    <p class="subtitle">
+                        Stay organized. Get things done.
+                    </p>
+                </div>
+
+                <button id="mobileThemeBtn" class="theme-button">
+                    ◐
+                </button>
+
+            </header>
+
+
+            <!-- STATISTICS -->
+
+            <section class="stats">
+
+                <div class="stat-card">
+                    <span>Total</span>
+                    <strong id="totalCount">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Completed</span>
+                    <strong id="completedCount">0</strong>
+                </div>
+
+                <div class="stat-card">
+                    <span>Remaining</span>
+                    <strong id="remainingCount">0</strong>
+                </div>
+
+            </section>
+
+
+            <!-- ADD TASK -->
+
+            <section class="add-section">
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="What needs to be done?"
+                >
+
+                <select id="priorityInput">
+
+                    <option value="low">
+                        Low priority
+                    </option>
+
+                    <option value="medium" selected>
+                        Medium priority
+                    </option>
+
+                    <option value="high">
+                        High priority
+                    </option>
+
+                </select>
+
+                <select id="categoryInput">
+
+                    <option value="Personal">
+                        Personal
+                    </option>
+
+                    <option value="Study">
+                        Study
+                    </option>
+
+                    <option value="Work">
+                        Work
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                </select>
+
+                <input
+                    type="date"
+                    id="dateInput"
+                >
+
+                <button id="addTaskBtn">
+                    + Add Task
+                </button>
+
+            </section>
+
+
+            <!-- SEARCH -->
+
+            <div class="toolbar">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    placeholder="Search tasks..."
+                >
+
+            </div>
+
+
+            <!-- TASK LIST -->
+
+            <section class="task-section">
+
+                <div class="section-title">
+
+                    <h2 id="sectionTitle">
+                        All Tasks
+                    </h2>
+
+                    <span id="taskCount">
+                        0 tasks
+                    </span>
+
+                </div>
+
+                <div id="taskList"></div>
+
+                <div id="emptyState" class="empty-state">
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <h3>No tasks here</h3>
+
+                    <p>
+                        Add a task and start getting things done.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+
+   <!-- THEME PANEL -->
+
+<div id="themePanel" class="theme-panel">
+
+    <div class="theme-panel-header">
+
+        <div>
+            <h2>Choose your theme</h2>
+            <p>Make MyTask yours.</p>
+        </div>
+
+        <button id="closeThemeBtn">
+            ×
+        </button>
+
+    </div>
+
+
+    <div class="theme-grid">
+
+        <button
+            class="theme-card selected"
+            data-theme="classic"
+        >
+
+            <div class="theme-preview classic-preview">
+
+                <span></span>
+                <span></span>
+                <span></span>
+
+            </div>
+
+            <strong>Classic</strong>
+
+            <small>Free</small>
+
+        </button>
+
+
+        <button
+            class="theme-card"
+            data-theme="y2k"
+        >
+
+            <div class="theme-preview y2k-preview">
+
+                <span>✦</span>
+                <span>MYTASK</span>
+                <span>01</span>
+
+            </div>
+
+            <strong>Y2K</strong>
+
+            <small>Premium</small>
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     EDIT TASK MODAL
+========================= -->
+
+<div id="editModal" class="edit-modal">
+
+    <div class="edit-modal-box">
+
+        <div class="edit-modal-header">
+
+            <div>
+                <h2>Edit Task</h2>
+                <p>Update your task details.</p>
+            </div>
+
+            <button
+                id="closeEditModal"
+                class="close-edit-modal"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <!-- TASK NAME -->
+
+        <label for="editTaskText">
+            Task
+        </label>
+
+        <input
+            type="text"
+            id="editTaskText"
+            placeholder="What needs to be done?"
+        >
+
+
+        <!-- PRIORITY -->
+
+        <label for="editTaskPriority">
+            Priority
+        </label>
+
+        <select id="editTaskPriority">
+
+            <option value="low">
+                Low priority
+            </option>
+
+            <option value="medium">
+                Medium priority
+            </option>
+
+            <option value="high">
+                High priority
+            </option>
+
+        </select>
+
+
+        <!-- CATEGORY -->
+
+        <label for="editTaskCategory">
+            Category
+        </label>
+
+        <select id="editTaskCategory">
+
+            <option value="Personal">
+                Personal
+            </option>
+
+            <option value="Study">
+                Study
+            </option>
+
+            <option value="Work">
+                Work
+            </option>
+
+            <option value="Other">
+                Other
+            </option>
+
+        </select>
+
+
+        <!-- DUE DATE -->
+
+        <label for="editTaskDueDate">
+            Due date
+        </label>
+
+        <input
+            type="date"
+            id="editTaskDueDate"
+        >
+
+
+        <!-- ACTIONS -->
+
+        <div class="edit-modal-actions">
+
+            <button
+                id="cancelEditBtn"
+                class="cancel-edit-btn"
+            >
+                Cancel
+            </button>
+
+            <button
+                id="saveEditBtn"
+                class="save-edit-btn"
+            >
+                Save Changes
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
